@@ -1,22 +1,19 @@
-package com.example.level4_task1
+package com.example.level4_task2
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_shopping_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,10 +25,10 @@ import kotlinx.coroutines.withContext
  */
 class ShoppingListFragment : Fragment() {
 
-    private lateinit var productRepository: ProductRepository
+    private lateinit var productRepository: GameRepository
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
-    private val products = arrayListOf<Product>()
+    private val products = arrayListOf<Game>()
     private val shoppingListAdapter = ShoppingListAdapter(products)
 
 
@@ -46,7 +43,7 @@ class ShoppingListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        productRepository = ProductRepository(requireContext())
+        productRepository = GameRepository(requireContext())
 
         getShoppingListFromDatabase()
 
@@ -92,7 +89,7 @@ class ShoppingListFragment : Fragment() {
     private fun addProduct(txtProductName: EditText, txtAmount: EditText) {
         if (validateFields(txtProductName, txtAmount)) {
             mainScope.launch {
-                val product = Product(
+                val product = Game(
                     productName = txtProductName.text.toString(),
                     productQuantity = txtAmount.text.toString().toShort()
                 )

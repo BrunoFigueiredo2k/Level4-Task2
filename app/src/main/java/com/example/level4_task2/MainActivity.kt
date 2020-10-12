@@ -1,12 +1,9 @@
-package com.example.level4_task1
+package com.example.level4_task2
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 

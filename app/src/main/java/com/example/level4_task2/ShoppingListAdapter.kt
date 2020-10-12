@@ -1,18 +1,17 @@
-package com.example.level4_task1
+package com.example.level4_task2
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_reminder.view.*
 import kotlinx.android.synthetic.main.product.view.*
 
-class ShoppingListAdapter(private val products: List<Product>) : RecyclerView.Adapter<ShoppingListAdapter.ViewHolder>() {
+class ShoppingListAdapter(private val products: List<Game>) : RecyclerView.Adapter<ShoppingListAdapter.ViewHolder>() {
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun databind(product: Product) {
+        fun databind(product: Game) {
             itemView.tvName.text = product.productName
             itemView.tvQuantity.text = product.productQuantity.toString()
         }

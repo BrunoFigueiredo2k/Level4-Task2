@@ -1,4 +1,4 @@
-package com.example.level4_task1
+package com.example.level4_task2
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
