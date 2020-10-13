@@ -1,24 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dateGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="48dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/vs"
+        app:layout_constraintEnd_toStartOf="@+id/imagePlayer"
+        app:layout_constraintStart_toEndOf="@+id/imageComputer"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imagePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/purple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/result"
+        tools:src="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/imageComputer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/purple"
-        app:layout_constraintEnd_toStartOf="@+id/vs"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvComputer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="4dp"
         android:text="@string/computer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageComputer" />
@@ -30,27 +53,29 @@
         android:text="@string/versus"
         android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/tvPlayer"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toEndOf="@+id/tvComputer"
-        app:layout_constraintTop_toBottomOf="@+id/result" />
-
-    <ImageView
-        android:id="@+id/imagePlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/purple"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/vs"
-        app:layout_constraintTop_toBottomOf="@+id/result"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintEnd_toStartOf="@+id/imagePlayer"
+        app:layout_constraintStart_toEndOf="@+id/imageComputer"
+        tools:layout_editor_absoluteY="50dp" />
 
     <TextView
         android:id="@+id/tvPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="56dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="52dp"
         android:text="@string/you"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageComputer" />
+
+    <TextView
+        android:id="@+id/resultHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imagePlayer"
+        app:layout_constraintStart_toEndOf="@+id/imageComputer"
+        app:layout_constraintTop_toBottomOf="@+id/vs" />
 </androidx.constraintlayout.widget.ConstraintLayout>

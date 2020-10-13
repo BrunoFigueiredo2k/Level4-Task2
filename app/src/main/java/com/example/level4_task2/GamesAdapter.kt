@@ -12,12 +12,11 @@ class GamesAdapter(private val games: List<Game>) : RecyclerView.Adapter<GamesAd
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun databind(game: Game) {
-            // TODO: fix binding of data in history of games
-            itemView.tvName.text = game.date
-            itemView.imageComputer.drawable(R.layout.game) = game.moveComputer
-            itemView.imagePlayer.text = game.movePlayer
-            itemView.tvQuantity.text = game.result
-
+            itemView.dateGame.text = game.date.toString()
+            //TODO: fix binding of (currently a String)
+            itemView.imagePlayer.setImageResource(R.drawable.paper) = game.movePlayer
+            itemView.imageComputer.text = game.moveComputer.toString()
+            itemView.resultHistory.text = game.result
         }
     }
 

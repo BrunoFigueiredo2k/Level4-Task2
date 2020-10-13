@@ -22,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -48,7 +49,7 @@ class GamesFragment : Fragment() {
 
         gameRepository = GameRepository(requireContext())
 
-        getShoppingListFromDatabase()
+        getGamesFromDatabase()
 
         initRv()
 
@@ -90,14 +91,29 @@ class GamesFragment : Fragment() {
 
         private fun checkResult(computerPlay: String, userPlay: String){
             // Save the textview widget that displays result in result variable. Then change the text based on the hands played
-            val result: TextView = findViewById(R.id.result) as TextView
+            var result = ""
             if (computerPlay == userPlay){
-                result.text = "Draw!"
+                result = "Draw!"
             } else if (computerPlay == "rock" && userPlay == "scissors" || computerPlay == "paper" && userPlay == "rock" ||
                 computerPlay == "scissors" && userPlay == "paper"){
-                result.text = "You lose!"
+                result = "You lose!"
             } else {
-                result.text = "You win!"
+                result = "You win!"
+            }
+
+            mainScope.launch {
+                val game = Game(
+                    date = Date(),
+                    moveComputer = computerPlay,
+                    movePlayer = userPlay,
+                    result = result
+                )
+
+                withContext(Dispatchers.IO) {
+                    gameRepository.insertGame(game)
+                }
+
+                getGamesFromDatabase()
             }
         }
 
@@ -114,118 +130,26 @@ class GamesFragment : Fragment() {
                     DividerItemDecoration.VERTICAL
                 )
             )
-
-            createItemTouchHelper().attachToRecyclerView(rvShoppingList)
-
         }
 
-        @SuppressLint("InflateParams")
-        private fun showAddProductdialog() {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle(getString(R.string.add_product_dialog_title))
-            val dialogLayout = layoutInflater.inflate(R.layout.add_product_dialog, null)
-            val productName = dialogLayout.findViewById<EditText>(R.id.txt_product_name)
-            val amount = dialogLayout.findViewById<EditText>(R.id.txt_amount)
-
-            builder.setView(dialogLayout)
-            builder.setPositiveButton(R.string.dialog_ok_btn) { _: DialogInterface, _: Int ->
-                addProduct(productName, amount)
-            }
-            builder.show()
-        }
-
-        private fun addProduct(txtProductName: EditText, txtAmount: EditText) {
-            if (validateFields(txtProductName, txtAmount)) {
-                mainScope.launch {
-                    val product = Game(
-                        productName = txtProductName.text.toString(),
-                        productQuantity = txtAmount.text.toString().toShort()
-                    )
-
-                    withContext(Dispatchers.IO) {
-                        productRepository.insertProduct(product)
-                    }
-
-                    getShoppingListFromDatabase()
-                }
-            }
-        }
-
-        private fun validateFields(
-            txtProductName: EditText
-            , txtAmount: EditText
-        ): Boolean {
-            return if (txtProductName.text.toString().isNotBlank()
-                && txtAmount.text.toString().isNotBlank()
-            ) {
-                true
-            } else {
-                Toast.makeText(
-                    activity,
-                    "Please fill in the fields (amount must be a number)!",
-                    Toast.LENGTH_LONG
-                ).show()
-                false
-            }
-        }
-
-
-        /**
-         * Create a touch helper to recognize when a user swipes an item from a recycler view.
-         * An ItemTouchHelper enables touch behavior (like swipe and move) on each ViewHolder,
-         * and uses callbacks to signal when a user is performing these actions.
-         */
-        private fun createItemTouchHelper(): ItemTouchHelper {
-
-            // Callback which is used to create the ItemTouch helper. Only enables left swipe.
-            // Use ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) to also enable right swipe.
-            val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-
-                // Enables or Disables the ability to move items up and down.
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return false
-                }
-
-                // Callback triggered when a user swiped an item.
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.adapterPosition
-//                products.removeAt(position)
-//                shoppingListAdapter.notifyDataSetChanged()
-                    val productToDelete = products[position]
-                    CoroutineScope(Dispatchers.Main).launch {
-                        withContext(Dispatchers.IO) {
-                            productRepository.deleteProduct(productToDelete)
-                        }
-                        getShoppingListFromDatabase()
-                    }
-
-
-                }
-            }
-            return ItemTouchHelper(callback)
-        }
-
-        private fun getShoppingListFromDatabase() {
+        private fun getGamesFromDatabase() {
             mainScope.launch {
                 val shoppingList = withContext(Dispatchers.IO) {
-                    productRepository.getAllProducts()
+                    gameRepository.getAllGames()
                 }
-                this@GamesFragment.products.clear()
-                this@GamesFragment.products.addAll(shoppingList)
-                this@GamesFragment.shoppingListAdapter.notifyDataSetChanged()
+                this@GamesFragment.games.clear()
+                this@GamesFragment.games.addAll(shoppingList)
+                this@GamesFragment.gamesAdapter.notifyDataSetChanged()
             }
         }
 
-        private fun removeAllProducts() {
+    // TODO: add this function to trash icon in menu of history fragment
+        private fun removeAllGames() {
             mainScope.launch {
                 withContext(Dispatchers.IO) {
-                    productRepository.deleteAllProducts()
+                    gameRepository.deleteAllGames()
                 }
-                getShoppingListFromDatabase()
+                getGamesFromDatabase()
             }
         }
 
