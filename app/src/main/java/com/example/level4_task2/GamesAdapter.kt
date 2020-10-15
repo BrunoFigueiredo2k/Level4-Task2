@@ -14,8 +14,8 @@ class GamesAdapter(private val games: List<Game>) : RecyclerView.Adapter<GamesAd
         fun databind(game: Game) {
             itemView.dateGame.text = game.date.toString()
             //TODO: fix binding of (currently a String)
-            itemView.imagePlayer.setImageResource(R.drawable.paper) = game.movePlayer
-            itemView.imageComputer.text = game.moveComputer.toString()
+//            itemView.imagePlayer.setImageResource(R.drawable.paper) = game.movePlayer
+//            itemView.imageComputer.text = game.moveComputer.toString()
             itemView.resultHistory.text = game.result
         }
     }

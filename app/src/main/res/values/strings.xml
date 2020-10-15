@@ -13,4 +13,10 @@
     <string name="result_win">You win!</string>
     <string name="result_lose">You lose!</string>
 
+    <string name="view_history">View history</string>
+
+    <!-- Fragment strings -->
+    <string name="first_fragment_label">Home Fragment</string>
+    <string name="second_fragment_label">History Fragment</string>
+
 </resources>

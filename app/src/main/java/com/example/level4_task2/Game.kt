@@ -1,8 +1,6 @@
 package com.example.level4_task2
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
 /** Data class called Reminder which has a String representing the reminder **/

@@ -1,21 +1,13 @@
 package com.example.level4_task2
 
-import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.level4_task2.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_play.*
 import kotlinx.coroutines.CoroutineScope
@@ -120,11 +112,11 @@ class GamesFragment : Fragment() {
         private fun initRv() {
 
             // Initialize the recycler view with a linear layout manager, adapter
-            rvShoppingList.layoutManager =
+            rvHistoryGames.layoutManager =
                 LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            rvShoppingList.adapter = gamesAdapter
-            rvShoppingList.setHasFixedSize(true)
-            rvShoppingList.addItemDecoration(
+            rvHistoryGames.adapter = gamesAdapter
+            rvHistoryGames.setHasFixedSize(true)
+            rvHistoryGames.addItemDecoration(
                 DividerItemDecoration(
                     context,
                     DividerItemDecoration.VERTICAL
