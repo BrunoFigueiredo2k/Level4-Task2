@@ -4,29 +4,20 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 
 class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
 
-    override fun onCreate(savedInstanceState: Bundle?, item: MenuItem) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
         navController = findNavController(R.id.nav_host_fragment)
 
-        // On click menu item 'View History' go to history page
-        when (item.itemId) {
-            R.id.view_history -> {
-                navController.navigate(
-                    R.id.action_FirstFragment_to_SecondFragment
-                )
-            }
-        }
-
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -38,9 +29,19 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.view_history -> true
-            else -> super.onOptionsItemSelected(item)
+        var id = item.itemId
+
+        if (id == R.id.view_history) {
+            findNavController(R.id.nav_host_fragment).navigate(
+                R.id.action_HomeFragment_to_GameHistoryFragment
+            )
+            return true
+        } else if (id == R.id.view_home){
+            findNavController(R.id.nav_host_fragment).navigate(
+                R.id.action_GameHistoryFragment_to_HomeFragment
+            )
+            return true
         }
+        return true
     }
 }

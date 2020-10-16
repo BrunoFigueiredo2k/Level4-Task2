@@ -14,21 +14,21 @@ abstract class GameRoomDatabase : RoomDatabase() {
     abstract fun gameDao(): GameDao
 
     companion object {
-        private const val DATABASE_NAME = "SHOPPING_LIST_DATABASE"
+        private const val DATABASE_NAME = "GAME_HISTORY_DATABASE"
 
         @Volatile
-        private var shoppingListRoomDatabaseInstance: GameRoomDatabase? = null
+        private var gameHistoryRoomDatabaseInstance: GameRoomDatabase? = null
 
         fun getDatabase(context: Context): GameRoomDatabase? {
-            if (shoppingListRoomDatabaseInstance == null) {
+            if (gameHistoryRoomDatabaseInstance == null) {
                 synchronized(GameRoomDatabase::class.java) {
-                    if (shoppingListRoomDatabaseInstance == null) {
-                        shoppingListRoomDatabaseInstance =
+                    if (gameHistoryRoomDatabaseInstance == null) {
+                        gameHistoryRoomDatabaseInstance =
                             Room.databaseBuilder(context.applicationContext,GameRoomDatabase::class.java, DATABASE_NAME).build()
                     }
                 }
             }
-            return shoppingListRoomDatabaseInstance
+            return gameHistoryRoomDatabaseInstance
         }
     }
 

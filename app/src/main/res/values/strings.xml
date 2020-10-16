@@ -10,10 +10,14 @@
     <string name="you">You</string>
     <string name="versus">V.S.</string>
 
+    <!-- Result strings -->
     <string name="result_win">You win!</string>
     <string name="result_lose">You lose!</string>
+    <string name="result_draw">Draw</string>
 
+    <string name="view_home">Home</string>
     <string name="view_history">View history</string>
+    <string name="your_history">Your Game History</string>
 
     <!-- Fragment strings -->
     <string name="first_fragment_label">Home Fragment</string>

@@ -45,77 +45,14 @@ class GamesFragment : Fragment() {
 
         initRv()
 
-        // Set click listeners for each image and send string parameter of chosen option to startGame function
-        rockImage.setOnClickListener() {
-            startGame("rock")
-        }
-
-        paperImage.setOnClickListener() {
-            startGame("paper")
-        }
-
-        scissorsImage.setOnClickListener() {
-            startGame("scissors")
-        }
     }
 
-    // Function to determine the plays of the player and computer based on the players click
-        private fun startGame(selectedOption: String) {
-            when (selectedOption){
-                "rock" -> imagePlayer.setImageResource(R.drawable.rock)
-                "paper" -> imagePlayer.setImageResource(R.drawable.paper)
-                "scissors" -> imagePlayer.setImageResource(R.drawable.scissors)
-            }
-
-            // Make list of all possible selections and then randomize the computer's played hand
-            var options = arrayOf("rock", "paper", "scissors")
-            val computerOption = options.random()
-
-            when (computerOption){
-                "rock" -> imageComputer.setImageResource(R.drawable.rock)
-                "paper" -> imageComputer.setImageResource(R.drawable.paper)
-                "scissors" -> imageComputer.setImageResource(R.drawable.scissors)
-            }
-
-            checkResult(computerOption, selectedOption)
-
-        }
-
-        private fun checkResult(computerPlay: String, userPlay: String){
-            // Save the textview widget that displays result in result variable. Then change the text based on the hands played
-            var result = ""
-            if (computerPlay == userPlay){
-                result = "Draw!"
-            } else if (computerPlay == "rock" && userPlay == "scissors" || computerPlay == "paper" && userPlay == "rock" ||
-                computerPlay == "scissors" && userPlay == "paper"){
-                result = "You lose!"
-            } else {
-                result = "You win!"
-            }
-
-            mainScope.launch {
-                val game = Game(
-                    date = Date(),
-                    moveComputer = computerPlay,
-                    movePlayer = userPlay,
-                    result = result
-                )
-
-                withContext(Dispatchers.IO) {
-                    gameRepository.insertGame(game)
-                }
-
-                getGamesFromDatabase()
-            }
-        }
-
         private fun initRv() {
-
             // Initialize the recycler view with a linear layout manager, adapter
             rvHistoryGames.layoutManager =
                 LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             rvHistoryGames.adapter = gamesAdapter
-            rvHistoryGames.setHasFixedSize(true)
+//            rvHistoryGames.setHasFixedSize(true)
             rvHistoryGames.addItemDecoration(
                 DividerItemDecoration(
                     context,
@@ -126,11 +63,11 @@ class GamesFragment : Fragment() {
 
         private fun getGamesFromDatabase() {
             mainScope.launch {
-                val shoppingList = withContext(Dispatchers.IO) {
+                val gameHistory = withContext(Dispatchers.IO) {
                     gameRepository.getAllGames()
                 }
                 this@GamesFragment.games.clear()
-                this@GamesFragment.games.addAll(shoppingList)
+                this@GamesFragment.games.addAll(gameHistory)
                 this@GamesFragment.gamesAdapter.notifyDataSetChanged()
             }
         }
