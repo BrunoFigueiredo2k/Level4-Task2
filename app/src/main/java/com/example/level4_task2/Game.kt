@@ -1,5 +1,6 @@
 package com.example.level4_task2
 
+import androidx.annotation.DrawableRes
 import androidx.room.*
 import java.util.*
 
@@ -11,10 +12,10 @@ data class Game(
     var date: Date?,
 
     @ColumnInfo(name = "moveComputer")
-    var moveComputer: String,
+    @DrawableRes var moveComputer: Int,
 
     @ColumnInfo(name = "movePlayer")
-    var movePlayer: String,
+    @DrawableRes var movePlayer: Int,
 
     @ColumnInfo(name = "result")
     var result: String,

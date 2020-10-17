@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_play.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,52 +32,55 @@ class PlayGameFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_play, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        gameRepository = GameRepository(requireContext())
+
         // Set click listeners for each image and send string parameter of chosen option to startGame function
         rockImage.setOnClickListener() {
-            startGame("rock")
+            startGame(0)
         }
 
         paperImage.setOnClickListener() {
-            startGame("paper")
+            startGame(1)
         }
 
         scissorsImage.setOnClickListener() {
-            startGame("scissors")
+            startGame(2)
         }
     }
 
     // Function to determine the plays of the player and computer based on the players click
-    private fun startGame(selectedOption: String) {
+    private fun startGame(selectedOption: Int) {
         // Set image to chosen option
         when (selectedOption){
-            "rock" -> imagePlayer.setImageResource(R.drawable.rock)
-            "paper" -> imagePlayer.setImageResource(R.drawable.paper)
-            "scissors" -> imagePlayer.setImageResource(R.drawable.scissors)
+            0 -> imagePlayer.setImageResource(R.drawable.rock)
+            1 -> imagePlayer.setImageResource(R.drawable.paper)
+            2 -> imagePlayer.setImageResource(R.drawable.scissors)
         }
 
         // Make list of all possible selections and then randomize the computer's played hand
-        var options = arrayOf("rock", "paper", "scissors")
-        val computerOption : String = options.random()
+        var options = arrayOf(0, 1, 2)
+        val computerOption : Int = options.random()
 
         // Set image to random option stored in computerOption
         when (computerOption){
-            "rock" -> imageComputer.setImageResource(R.drawable.rock)
-            "paper" -> imageComputer.setImageResource(R.drawable.paper)
-            "scissors" -> imageComputer.setImageResource(R.drawable.scissors)
+            0 -> imageComputer.setImageResource(R.drawable.rock)
+            1 -> imageComputer.setImageResource(R.drawable.paper)
+            2 -> imageComputer.setImageResource(R.drawable.scissors)
         }
 
         checkResult(computerOption, selectedOption)
     }
 
-    private fun checkResult(computerPlay: String, userPlay: String){
+    private fun checkResult(computerPlay: Int, userPlay: Int){
         // Save the textview widget that displays result in result variable. Then change the text based on the hands played
         if (userPlay ==  computerPlay){
             result.setText(R.string.result_draw)
-        } else if (computerPlay == "rock" && userPlay == "scissors" || computerPlay == "paper" && userPlay == "rock" ||
-            computerPlay == "scissors" && userPlay == "paper"){
+        } else if (computerPlay == 0 && userPlay == 2 || computerPlay == 1 && userPlay == 0 ||
+            computerPlay == 2 && userPlay == 1){
             result.setText(R.string.result_lose)
         } else {
             result.setText(R.string.result_win)
@@ -85,13 +91,13 @@ class PlayGameFragment : Fragment() {
     }
 
     // TODO: fix inserting game into db
-    private fun addGameToDatabase(computerPlay: String, userPlay: String, result: TextView){
+    private fun addGameToDatabase(computerPlay: Int, userPlay: Int, result: TextView){
         mainScope.launch {
             val game = Game(
                 date = Date(),
                 moveComputer = computerPlay,
                 movePlayer = userPlay,
-                result = result.toString()             // convert result (TextView) to string so it can be saved in db
+                result = result.text.toString()             // convert result (TextView) to string so it can be saved in db
             )
 
             withContext(Dispatchers.IO) {

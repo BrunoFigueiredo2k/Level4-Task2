@@ -13,9 +13,8 @@ class GamesAdapter(private val games: List<Game>) : RecyclerView.Adapter<GamesAd
 
         fun databind(game: Game) {
             itemView.dateGame.text = game.date.toString()
-            //TODO: fix binding of (currently a String)
-//            itemView.imagePlayer.setImageResource(R.drawable.paper) = game.movePlayer
-//            itemView.imageComputer.text = game.moveComputer.toString()
+            itemView.imagePlayer.setImageResource(game.movePlayer)
+            itemView.imageComputer.setImageResource(game.moveComputer)
             itemView.resultHistory.text = game.result
         }
     }
@@ -25,7 +24,6 @@ class GamesAdapter(private val games: List<Game>) : RecyclerView.Adapter<GamesAd
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.game, parent, false)
         )
-
     }
 
     override fun getItemCount(): Int {
@@ -35,6 +33,5 @@ class GamesAdapter(private val games: List<Game>) : RecyclerView.Adapter<GamesAd
     override fun onBindViewHolder(holder: GamesAdapter.ViewHolder, position: Int) {
         holder.databind(games[position])
     }
-
 
 }

@@ -45,6 +45,11 @@ class GamesFragment : Fragment() {
 
         initRv()
 
+        // On click delete floating action button delete all games from history
+        fabDeleteAll.setOnClickListener() {
+            removeAllGames()
+        }
+
     }
 
         private fun initRv() {
@@ -81,6 +86,5 @@ class GamesFragment : Fragment() {
                 getGamesFromDatabase()
             }
         }
-
 
     }
