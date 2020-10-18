@@ -52,39 +52,31 @@ class GamesFragment : Fragment() {
 
     }
 
-        private fun initRv() {
-            // Initialize the recycler view with a linear layout manager, adapter
-            rvHistoryGames.layoutManager =
-                LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            rvHistoryGames.adapter = gamesAdapter
-//            rvHistoryGames.setHasFixedSize(true)
-            rvHistoryGames.addItemDecoration(
-                DividerItemDecoration(
-                    context,
-                    DividerItemDecoration.VERTICAL
-                )
-            )
-        }
-
-        private fun getGamesFromDatabase() {
-            mainScope.launch {
-                val gameHistory = withContext(Dispatchers.IO) {
-                    gameRepository.getAllGames()
-                }
-                this@GamesFragment.games.clear()
-                this@GamesFragment.games.addAll(gameHistory)
-                this@GamesFragment.gamesAdapter.notifyDataSetChanged()
-            }
-        }
-
-    // TODO: add this function to trash icon in menu of history fragment
-        private fun removeAllGames() {
-            mainScope.launch {
-                withContext(Dispatchers.IO) {
-                    gameRepository.deleteAllGames()
-                }
-                getGamesFromDatabase()
-            }
-        }
-
+    private fun initRv() {
+        // Initialize the recycler view with a linear layout manager, adapter
+        rvHistoryGames.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        rvHistoryGames.adapter = gamesAdapter
+        rvHistoryGames.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
+
+    private fun getGamesFromDatabase() {
+        mainScope.launch {
+            val gameHistory = withContext(Dispatchers.IO) {
+                gameRepository.getAllGames()
+            }
+            this@GamesFragment.games.clear()
+            this@GamesFragment.games.addAll(gameHistory)
+            this@GamesFragment.gamesAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun removeAllGames() {
+        mainScope.launch {
+            withContext(Dispatchers.IO) {
+                gameRepository.deleteAllGames()
+            }
+            getGamesFromDatabase()
+        }
+    }
+
+}

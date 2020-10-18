@@ -19,12 +19,19 @@ class GameRepository(context: Context) {
         gameDao.insertGame(game)
     }
 
-    suspend fun deleteGame(game: Game) {
-        gameDao.deleteGame(game)
-    }
-
     suspend fun deleteAllGames() {
         gameDao.deleteAllGames()
+    }
+
+    suspend fun countDraws(): List<Game> {
+        return gameDao.countDraws()
+    }
+
+    suspend fun countWins(): List<Game> {
+        return gameDao.countWins()
+    }
+    suspend fun countLosses(): List<Game> {
+        return gameDao.countLosses()
     }
 
 }

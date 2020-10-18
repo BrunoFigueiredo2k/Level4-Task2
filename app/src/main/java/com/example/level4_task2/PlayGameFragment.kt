@@ -1,5 +1,6 @@
 package com.example.level4_task2
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ class PlayGameFragment : Fragment() {
     private val games = arrayListOf<Game>()
     private val gamesAdapter = GamesAdapter(games)
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +40,9 @@ class PlayGameFragment : Fragment() {
 
         gameRepository = GameRepository(requireContext())
 
+        // Display all time stats
+        displayStats()
+
         // Set click listeners for each image and send string parameter of chosen option to startGame function
         rockImage.setOnClickListener() {
             startGame(0)
@@ -49,6 +54,25 @@ class PlayGameFragment : Fragment() {
 
         scissorsImage.setOnClickListener() {
             startGame(2)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun displayStats(){
+        // Launch inside coroutine
+        mainScope.launch {
+            val draws = withContext(Dispatchers.IO) {
+                gameRepository.countDraws()
+            }
+            val wins = withContext(Dispatchers.IO) {
+                gameRepository.countWins()
+            }
+            val losses = withContext(Dispatchers.IO) {
+                gameRepository.countLosses()
+            }
+
+            // Setting stats text in TextView for stats
+            stats_query.text = "Win: ${wins} Draw: ${draws} Lose:${losses}"
         }
     }
 

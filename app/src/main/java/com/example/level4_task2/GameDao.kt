@@ -14,10 +14,16 @@ interface GameDao {
     @Insert
     suspend fun insertGame(game: Game)
 
-    @Delete
-    suspend fun deleteGame(game: Game)
-
     @Query("DELETE FROM gameTable")
     suspend fun deleteAllGames()
 
+    // Stats queries
+    @Query("SELECT COUNT(\"result\") FROM gameTable WHERE result = 'Draw'")
+    suspend fun countDraws(): List<Game>
+
+    @Query("SELECT COUNT(\"result\") FROM gameTable WHERE result = 'You win!'")
+    suspend fun countWins(): List<Game>
+
+    @Query("SELECT COUNT(\"result\") FROM gameTable WHERE result = 'You lose!'")
+    suspend fun countLosses(): List<Game>
 }
